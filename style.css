@@ -1,3 +1,11 @@
+.selected {
+    border: black 3px solid;
+}
+
+.btns{
+    margin: 10px 0px;
+}
+
 .overlay {
     fill: none;
     pointer-events: all;

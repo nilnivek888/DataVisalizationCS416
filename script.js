@@ -1,15 +1,19 @@
 const d3 = window.d3;
 var data, groupByYear, xRange, xDomain, xScale, yRange, yDomain, yScale;
+const btns = [];
 const sceneData = [];
 const margin = 100;
 const width = 900 - margin * 2;
 const height = 900 - margin * 2;
-let current = 0;
+let currentScene = 0;
 const annotationList = [];
 function getEntry(x) {
 	return groupByYear.filter(a_i => a_i.Year === x)[0];
 }
 window.onload = async function () {
+	btns[0] = document.getElementById("btn1");
+	btns[1] = document.getElementById("btn2");
+	btns[2] = document.getElementById("btn3");
 	data = await d3.csv("./data/History_of_Mass_Shootings_in_the_USA.csv");
 	data = data.reverse();
 	data.forEach(d => {
@@ -38,7 +42,7 @@ window.onload = async function () {
 			},
 			x: 545,
 			y: 677,
-			dx: -15,
+			dx: -55,
 			dy: -57,
 			subject: {
 				width: -550,
@@ -53,7 +57,7 @@ window.onload = async function () {
 			},
 			data: getEntry(2017),
 			dx: -105,
-			dy: -83,
+			dy: -150,
 			subject: {
 				radius: 18.5,
 			},
@@ -84,16 +88,27 @@ window.onload = async function () {
 		aList: annotationList,
 		aStyle: d3.annotationCalloutCircle,
 	};
-	render(current);
+	render(currentScene);
 };
 
-function next() {
-	current = (current + 1) % 3;
-	render(current);
+function next(button) {
+	currentScene = (currentScene + 1) % 3;
+	btns.forEach(btn => {
+		btn.classList.remove("selected");
+	});
+	btns[currentScene].classList.add("selected");
+	render(currentScene);
 }
 
-function render(scene) {
+function render(scene, button) {
 	// clear old content
+	currentScene = scene;
+	if (button) {
+		btns.forEach(btn => {
+			btn.classList.remove("selected");
+		});
+		button.classList.add("selected");
+	}
 	const svg = d3.select("svg").selectAll("*").remove();
 	drawChart(scene);
 	drawAnnotations(scene);
@@ -204,7 +219,11 @@ function drawTooltips(scene) {
 			i = d3.bisector(d => d.Year).left(groupByYear, x0, 1),
 			d0 = sceneData[scene].data[i - 1],
 			d1 = sceneData[scene].data[i];
+		if (!d0 || !d1) {
+			return;
+		}
 		d = x0 - d0.Year > d1.Year - x0 ? d1 : d0;
+
 		focus.attr(
 			"transform",
 			`translate(${xScale(d.Year) + margin},${
