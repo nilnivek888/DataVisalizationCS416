@@ -148,11 +148,21 @@ function drawChart(scene) {
 		.curve(d3.curveMonotoneX);
 
 	path.datum(sceneData[scene].data)
-		.attr("class", "line")
 		.attr("transform", `translate(${margin},${margin})`)
 		.attr("d", line)
 		.style("fill", "none")
 		.style("stroke", "red")
+		.style("stroke-width", "2");
+	if (scene === 0) {
+		return;
+	}
+	const path2 = svg.append("path");
+	path2
+		.datum(sceneData[scene - 1].data)
+		.attr("transform", `translate(${margin},${margin})`)
+		.attr("d", line)
+		.style("fill", "none")
+		.style("stroke", "black")
 		.style("stroke-width", "2");
 }
 

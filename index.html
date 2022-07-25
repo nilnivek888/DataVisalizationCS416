@@ -9,28 +9,24 @@
 	</head>
 
 	<body>
+		<div id="graph">
+			<h1>Annual Total Casualty of Mass Shooting Incidents in the US</h1>
+			<svg width="900" height="900"></svg>
+		</div>
+		<div id="btns" class="btns">
+			<span>Hover over graph for additional data</span><br>
+			<span>Jump to: </span>
+			<button id="btn1" onclick="render(0, this)" type="button" class="selected">Slide 1</button>
+			<button id="btn2" onclick="render(1, this)" type="button">Slide 2</button>
+			<button id="btn3" onclick="render(2, this)" type="button">Slide 3</button>
+		</div>
+		<button onclick="next(this)" type="button">Next Slide</button>
 		<div>
 			<a
 				href="https://www.kaggle.com/datasets/rprkh15/history-of-mass-shootings-in-the-usa"
 			>
 				source
 			</a>
-			<br/>
-			<a
-				href="https://www.sciencenews.org/article/gun-violence-mass-shootings-increase-united-states-data-uvalde-buffalo"
-			>
-				related article
-			</a>
 		</div>
-		<div id="graph">
-			<h1>Annual Total Casualty of Mass Shooting Incidents in the US</h1>
-			<svg width="900" height="900"></svg>
-		</div>
-		<div id="btns" class="btns">
-			<button id="btn1" onclick="render(0, this)" type="button" class="selected">Scene 1</button>
-			<button id="btn2" onclick="render(1, this)" type="button">Scene 2</button>
-			<button id="btn3" onclick="render(2, this)" type="button">Scene 3</button>
-		</div>
-		<button onclick="next(this)" type="button">Next</button>
 	</body>
 </html>
